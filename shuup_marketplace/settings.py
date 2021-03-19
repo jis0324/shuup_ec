@@ -5,7 +5,7 @@
 # This source code is licensed under the OSL-3.0 license found in the
 # LICENSE file in the root directory of this source tree.
 import os
-
+from . import config
 from shuup.addons import add_enabled_addons
 
 BASE_DIR = os.getenv("SHUUP_WORKBENCH_BASE_DIR") or (os.path.dirname(os.path.dirname(__file__)))
@@ -111,24 +111,30 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 SOUTH_TESTS_MIGRATE = False  # Makes tests that much faster.
 DEFAULT_FROM_EMAIL = 'no-reply@example.com'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
 
-LOGGING = {
-    'version': 1,
-    'formatters': {
-        'verbose': {'format': '[%(asctime)s] (%(name)s:%(levelname)s): %(message)s'},
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-    },
-    'loggers': {
-        'shuup': {'handlers': ['console'], 'level': 'DEBUG', 'propagate': True},
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'formatters': {
+#         'verbose': {'format': '[%(asctime)s] (%(name)s:%(levelname)s): %(message)s'},
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         },
+#     },
+#     'loggers': {
+#         'shuup': {'handlers': ['console'], 'level': 'DEBUG', 'propagate': True},
+#     }
+# }
 
 LANGUAGES = [
     # List all supported languages here.
